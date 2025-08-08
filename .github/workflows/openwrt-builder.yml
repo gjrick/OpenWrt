@@ -36,6 +36,18 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
+    # 在編譯前加入這個清理步驟
+    - name: Free up disk space
+        run: |
+          echo "Initial disk space:"
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          echo "Disk space after cleanup:"
+          df -h
+
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
