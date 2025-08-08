@@ -37,7 +37,7 @@ jobs:
       uses: actions/checkout@main
       
     - name: Free up disk space
-        run: |
+      run: |
           echo "Initial disk space:"
           df -h
           sudo rm -rf /usr/share/dotnet
