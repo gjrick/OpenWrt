@@ -35,6 +35,19 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@main
+      
+    - name: Free up disk space
+      run: |
+          echo "Initial disk space:"
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo swapoff /swapfile
+          sudo rm -f /swapfile
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          echo "Disk space after cleanup:"
+          df -h
 
     - name: Initialization environment
       env:
@@ -86,19 +99,6 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-      
-    - name: Free up disk space
-      run: |
-          echo "Initial disk space:"
-          df -h
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo swapoff /swapfile
-          sudo rm -f /swapfile
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          echo "Disk space after cleanup:"
-          df -h
 
     - name: Compile the firmware
       id: compile
