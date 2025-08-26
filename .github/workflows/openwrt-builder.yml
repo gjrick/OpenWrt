@@ -46,7 +46,15 @@ jobs:
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           echo "Disk space after cleanup:"
           df -h
-  
+    - name: Freeing up disk space
+      uses: actions/checkout@main
+      with: 
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
+        
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
